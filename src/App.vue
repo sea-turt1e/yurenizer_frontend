@@ -142,6 +142,11 @@
 
     <p v-if="error" class="error-message">{{ error }}</p>
   </div>
+
+  <div class="returnText">
+    <p v-if="responseMessage">{{ responseMessage }}</p>
+    <p v-else></p>
+  </div>
 </template>
 
 <script lang="ts">
@@ -174,6 +179,7 @@ export default defineComponent({
       isOrthographicVariation: true,
       isMisspeling: true,
     });
+    const responseMessage = ref('')
 
     const unifyLevel: Option[] = [
       { value: 'lexeme', label: '語彙' },
@@ -193,18 +199,32 @@ export default defineComponent({
         return
       }
 
+      // handleSubmit 関数を以下のように修正
       try {
         isLoading.value = true
         error.value = ''
 
-        const response = await axios.post('/api/submit', {
+        // URLSearchParams を使用してクエリパラメータを構築
+        const params = new URLSearchParams({
           text: inputText.value,
-          option: selectedUnifyLevel.value
+          unify_level: selectedUnifyLevel.value
         })
+
+        // GET リクエストに変更
+        const response = await axios.get(
+          `http://127.0.0.1:8000/normalize?${params.toString()}`,
+          {
+            headers: {
+              'accept': 'application/json'
+            }
+          }
+        )
 
         console.log('送信成功:', response.data)
         // 成功時の処理をここに追加
-        
+        responseMessage.value = response.data.message
+
+
       } catch (e) {
         error.value = '送信に失敗しました。もう一度お試しください。'
         console.error('エラー:', e)
@@ -220,7 +240,8 @@ export default defineComponent({
       selectedUnifyLevel,
       isLoading,
       error,
-      handleSubmit
+      handleSubmit,
+      responseMessage,
     }
   }
 })
@@ -317,5 +338,14 @@ export default defineComponent({
 
 .checkbox-input {
   margin-right: 8px;
+}
+
+/* ただのテキスト表示 */
+.returnText {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
 }
 </style>
