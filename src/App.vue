@@ -212,7 +212,7 @@ export default defineComponent({
 
         // GET リクエストに変更
         const response = await axios.get(
-          `http://127.0.0.1:8000/normalize?${params.toString()}`,
+          `http://127.0.0.1:8000/normalize_text?${params.toString()}`,
           {
             headers: {
               'accept': 'application/json'
@@ -222,7 +222,7 @@ export default defineComponent({
 
         console.log('送信成功:', response.data)
         // 成功時の処理をここに追加
-        responseMessage.value = response.data.message
+        responseMessage.value = response.data.text
 
 
       } catch (e) {
