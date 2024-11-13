@@ -7,7 +7,7 @@
     <div class="unify-options-group">
       <p>統一レベル</p>
       <select 
-        v-model="selectedUnifyLevel" 
+        v-model="flgOptions.selectedUnifyLevel" 
         class="select-input"
       >
         <option value="" disabled selected>選択してください</option>
@@ -85,7 +85,7 @@
       <label class="checkbox-label">
         <input
           type="checkbox"
-          v-model="flgOptions.isJapaneseAbbreviation"
+          v-model="flgOptions.isNonAlfabeticAbbreviation"
           class="checkbox-input"
         />
         アルファベット以外の略語
@@ -150,7 +150,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, reactive } from 'vue'
 import axios from 'axios'
 
 interface Option {
@@ -163,10 +163,11 @@ export default defineComponent({
   name: 'FormComponent',
   setup() {
     const inputText = ref('')
-    const selectedUnifyLevel = ref('lexeme')
+    // const selectedUnifyLevel = ref('lexeme')
     const isLoading = ref(false)
     const error = ref('')
-    const flgOptions = ref({
+    const flgOptions = reactive({
+      selectedUnifyLevel: 'lexeme',
       isTaigen: true,
       isYougen: false,
       isOtherLanguage: true,
@@ -174,11 +175,11 @@ export default defineComponent({
       isOldName: true,
       isMisuse: true,
       isAlfabeticAbbreviation: true,
-      isJapaneseAbbreviation: true,
+      isNonAlfabeticAbbreviation: true,
       isAlphabet: true,
       isOrthographicVariation: true,
       isMisspeling: true,
-    });
+    })
     const responseMessage = ref('')
 
     const unifyLevel: Option[] = [
@@ -186,7 +187,6 @@ export default defineComponent({
       { value: 'wordForm', label: '語形' },
       { value: 'abbreviation', label: '略語・略称' },
     ]
-    
 
     const handleSubmit = async () => {
       if (!inputText.value) {
@@ -194,7 +194,7 @@ export default defineComponent({
         return
       }
 
-      if (!selectedUnifyLevel.value) {
+      if (!flgOptions.selectedUnifyLevel) {
         error.value = 'オプションを選択してください'
         return
       }
@@ -207,18 +207,32 @@ export default defineComponent({
         // URLSearchParams を使用してクエリパラメータを構築
         const params = new URLSearchParams({
           text: inputText.value,
-          unify_level: selectedUnifyLevel.value
+          unify_level: flgOptions.selectedUnifyLevel,
         })
-
-        // GET リクエストに変更
-        const response = await axios.get(
-          `http://127.0.0.1:8000/normalize_text?${params.toString()}`,
-          {
-            headers: {
-              'accept': 'application/json'
-            }
+        const response = await axios.post(
+        'http://127.0.0.1:8000/normalize_text?text=' + inputText.value,
+        {
+          unify_level: flgOptions.selectedUnifyLevel,
+          taigen: flgOptions.isTaigen,
+          yougen: flgOptions.isYougen,
+          expansion:true,
+          other_language: flgOptions.isOtherLanguage,
+          alias: flgOptions.isAlias,
+          old_name: flgOptions.isOldName,
+          misuse: flgOptions.isMisuse,
+          alfabetic_abbreviation: flgOptions.isAlfabeticAbbreviation,
+          non_alphabetic_abbreviation: flgOptions.isNonAlfabeticAbbreviation,
+          alphabet: flgOptions.isAlphabet,
+          orthographic_variation: flgOptions.isOrthographicVariation,
+          misspeling: flgOptions.isMisspeling,
+        },
+        {
+          headers: {
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
           }
-        )
+        }
+      )
 
         console.log('送信成功:', response.data)
         // 成功時の処理をここに追加
@@ -237,7 +251,6 @@ export default defineComponent({
       inputText,
       unifyLevel,
       flgOptions,
-      selectedUnifyLevel,
       isLoading,
       error,
       handleSubmit,
