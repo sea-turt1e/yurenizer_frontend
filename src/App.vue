@@ -199,33 +199,33 @@ export default defineComponent({
         return
       }
 
-      // handleSubmit 関数を以下のように修正
       try {
         isLoading.value = true
         error.value = ''
 
-        // URLSearchParams を使用してクエリパラメータを構築
-        const params = new URLSearchParams({
-          text: inputText.value,
-          unify_level: flgOptions.selectedUnifyLevel,
-        })
+        const requestBody = {
+          config:{
+            unify_level: flgOptions.selectedUnifyLevel,
+            taigen: flgOptions.isTaigen,
+            yougen: flgOptions.isYougen,
+            expansion: "from_another",
+            other_language: flgOptions.isOtherLanguage,
+            alias: flgOptions.isAlias,
+            old_name: flgOptions.isOldName,
+            misuse: flgOptions.isMisuse,
+            alphabetic_abbreviation: flgOptions.isAlfabeticAbbreviation,
+            non_alphabetic_abbreviation: flgOptions.isNonAlfabeticAbbreviation,
+            alphabet: flgOptions.isAlphabet,
+            orthographic_variation: flgOptions.isOrthographicVariation,
+            misspeling: flgOptions.isMisspeling,
+            }
+        }
+        console.log('送信直前の値:', inputText.value)
+        console.log('送信直前の値:', requestBody)
+
         const response = await axios.post(
         'http://127.0.0.1:8000/normalize_text?text=' + inputText.value,
-        {
-          unify_level: flgOptions.selectedUnifyLevel,
-          taigen: flgOptions.isTaigen,
-          yougen: flgOptions.isYougen,
-          expansion:true,
-          other_language: flgOptions.isOtherLanguage,
-          alias: flgOptions.isAlias,
-          old_name: flgOptions.isOldName,
-          misuse: flgOptions.isMisuse,
-          alfabetic_abbreviation: flgOptions.isAlfabeticAbbreviation,
-          non_alphabetic_abbreviation: flgOptions.isNonAlfabeticAbbreviation,
-          alphabet: flgOptions.isAlphabet,
-          orthographic_variation: flgOptions.isOrthographicVariation,
-          misspeling: flgOptions.isMisspeling,
-        },
+        requestBody,        
         {
           headers: {
             'accept': 'application/json',
@@ -233,6 +233,7 @@ export default defineComponent({
           }
         }
       )
+
 
         console.log('送信成功:', response.data)
         // 成功時の処理をここに追加
@@ -284,19 +285,6 @@ export default defineComponent({
 .select-input:focus {
   outline: none;
   border-color: #4CAF50;
-}
-
-.text-input {
-  width: 100%;
-  min-height: 100px;     /* 最小の高さを設定 */
-  padding: 10px;         /* パディングを調整 */
-  font-size: 16px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical;      /* 垂直方向のリサイズのみ許可 */
-  vertical-align: top;   /* テキストを上から開始 */
-  line-height: 1.5;      /* 行間を調整 */
 }
 
 .unify-options-group {
@@ -353,12 +341,42 @@ export default defineComponent({
   margin-right: 8px;
 }
 
-/* ただのテキスト表示 */
+/* 共通のコンテナ幅を設定 */
+.text-input, .returnText {
+  width: 100%;
+  max-width: 800px;  /* 必要に応じて調整 */
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box; /* padding を width に含める */
+}
+
+.text-input {
+  min-height: 100px;
+  padding: 10px;
+  font-size: 16px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
 .returnText {
-  margin-top: 20px;
-  padding: 20px;
+  /* margin-top: 20px; */
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #f9f9f9;
+  text-align: left;
+  line-height: 1.5;
+  min-height: 100px;
+  display: block;
+}
+/* returnText内のpタグも調整 */
+.returnText p {
+  margin: 0;            /* デフォルトのマージンを削除 */
+  padding: 0;           /* デフォルトのパディングを削除 */
+  text-align: left;     /* 左揃えに設定 */
 }
 </style>
