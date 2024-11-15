@@ -21,6 +21,9 @@
       </select>
     </div>
 
+    <div class="option-heading">
+      <h4>(0) 品詞</h4>
+    </div>
     <div class="checkbox-group">
       <label class="checkbox-label">
         <input
@@ -38,6 +41,9 @@
         />
         用言
       </label>
+    </div>
+    <div class="option-heading">
+      <h4>(1) 語彙を統一</h4>
     </div>
     <div class="checkbox-group">
       <label class="checkbox-label">
@@ -73,6 +79,9 @@
         誤用
       </label>
     </div>
+    <div class="option-heading">
+      <h4>(2) 1の段階（語形）を統一</h4>
+    </div>
     <div class="checkbox-group">
       <label class="checkbox-label">
         <input
@@ -90,6 +99,9 @@
         />
         アルファベット以外の略語
       </label>
+    </div>
+    <div class="option-heading">
+      <h4>(3) 2の段階（略語・略称）を統一</h4>
     </div>
     <div class="checkbox-group">
       <label class="checkbox-label">
@@ -130,8 +142,6 @@
       ></textarea>
     </div>
 
-
-
     <button
       @click="handleSubmit"
       :disabled="isLoading"
@@ -146,6 +156,56 @@
   <div class="returnText">
     <p v-if="responseMessage">{{ responseMessage }}</p>
     <p v-else></p>
+  </div>
+
+  
+  <div class="optionExplain">
+    <h3>※オプションの説明</h3>
+      <p>（お急ぎの方は、デフォルト設定のままご利用ください）</p>
+
+      <p>このライブラリは、文章中の表記の揺れを自動で統一します。</p>
+
+      <h4>表記揺れの例：</h4>
+      <ul>
+          <li>「PC」と「パソコン」と「コンピュータ」</li>
+          <li>「いちご」と「イチゴ」と「苺」</li>
+          <li>「とうきょう」と「東京」と「TOKYO」</li>
+      </ul>
+
+      <h4>統一レベルの選択</h4>
+      <p>どこまで表記を統一するか、以下の3段階から選べます：</p>
+
+      <div class="level-explanation">
+          <h5>1. 基本レベル（語彙）</h5>
+          <ul>
+              <li>外来語、別称、旧称、誤用を基本的な表記に統一</li>
+              <li>例：「コンピューター」→「コンピュータ」</li>
+              <li>例：「とうきょう」→「東京」</li>
+          </ul>
+
+          <h5>2. 中間レベル（語形）</h5>
+          <ul>
+              <li>アルファベットの略語、その他の略語を正式名称に統一</li>
+              <li>例：「パソコン」→「コンピュータ」</li>
+              <li>例：「東京都」→「東京」</li>
+          </ul>
+
+          <h5>3. 詳細レベル（略語・略称）</h5>
+          <ul>
+              <li>アルファベット表記、異表記、誤字を統一</li>
+              <li>例：「PC」→「コンピュータ」</li>
+              <li>例：「TOKYO」→「東京」</li>
+          </ul>
+      </div>
+
+      <h4>品詞の選択について</h4>
+      <p>統一したい品詞（名詞、動詞など）を選択できます。<br>
+      ※ 選択しない場合は表記の統一は行われません。</p>
+
+      <p>※1 イメージとしては以下のようなツリー構造になっています。</p>
+          <!-- 画像貼り付け -->
+    <img src="../public/normalize_tree.png" alt="normalize_tree" width="100%">
+    <p>※2 語彙、語形、略語・略称などは<a href="https://github.com/WorksApplications/SudachiDict/blob/develop/docs/synonyms.md" target="_blank" rel="noopener noreferrer">Sudachi同義語辞書</a>に基づいています。詳しくはそちらをご覧ください。</p>
   </div>
 </template>
 
@@ -183,9 +243,9 @@ export default defineComponent({
     const responseMessage = ref('')
 
     const unifyLevel: Option[] = [
-      { value: 'lexeme', label: '語彙' },
-      { value: 'wordForm', label: '語形' },
-      { value: 'abbreviation', label: '略語・略称' },
+      { value: 'lexeme', label: '(1) 語彙' },
+      { value: 'wordForm', label: '(2) 語形' },
+      { value: 'abbreviation', label: '(3) 略語・略称' },
     ]
 
     const handleSubmit = async () => {
@@ -341,6 +401,12 @@ export default defineComponent({
   margin-right: 8px;
 }
 
+.option-heading {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  text-align: left;
+}
+
 /* 共通のコンテナ幅を設定 */
 .text-input, .returnText {
   width: 100%;
@@ -378,5 +444,10 @@ export default defineComponent({
   margin: 0;            /* デフォルトのマージンを削除 */
   padding: 0;           /* デフォルトのパディングを削除 */
   text-align: left;     /* 左揃えに設定 */
+}
+.optionExplain {
+  margin-top: 20px;
+  padding: 10px;
+  text-align: left;
 }
 </style>
