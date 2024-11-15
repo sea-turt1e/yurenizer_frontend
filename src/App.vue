@@ -167,8 +167,8 @@
 
       <h4>表記揺れの例：</h4>
       <ul>
-          <li>「PC」と「パソコン」と「コンピュータ」</li>
-          <li>「いちご」と「イチゴ」と「苺」</li>
+          <li>「パーソナルコンピューター」と「パソコン」と「personal computer」</li>
+          <li>「苺」と「イチゴ」と「いちご」</li>
           <li>「とうきょう」と「東京」と「TOKYO」</li>
       </ul>
 
@@ -244,7 +244,7 @@ export default defineComponent({
 
     const unifyLevel: Option[] = [
       { value: 'lexeme', label: '(1) 語彙' },
-      { value: 'wordForm', label: '(2) 語形' },
+      { value: 'word_form', label: '(2) 語形' },
       { value: 'abbreviation', label: '(3) 略語・略称' },
     ]
 
