@@ -2,7 +2,7 @@
 <template>
   <!-- タイトルを表示 -->
   <h1>Yurenizer</h1>
-  <h2>表記揺れ解消ツール</h2>
+  <h2>表記揺れ統一ツール</h2>
   <div class="form-container">
     <div class="unify-options-group">
       <p>統一レベル</p>
@@ -131,7 +131,7 @@
     </div> -->
 
     <div class="input-group">
-      <p>表記揺れを解消したいテキストを入力してください</p>
+      <p>表記揺れを統一したいテキストを入力してください</p>
       <label for="text-input"></label>
       <textarea
         id="text-input"
