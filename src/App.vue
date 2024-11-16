@@ -5,7 +5,7 @@
   <h2>表記揺れ統一ツール</h2>
   <div class="form-container">
     <div class="unify-options-group">
-      <p>統一レベル</p>
+      <h3>統一レベル</h3>
       <select 
         v-model="flgOptions.selectedUnifyLevel" 
         class="select-input"
@@ -139,8 +139,8 @@
           type="text"
           class="text-input"
           :maxlength="1000"
-          placeholder="例：&#13;&#10;1. JR東日本&#13;&#10;2. JR東&#13;&#10;3. JR-East"
-        @focus="handleFocus"
+          placeholder="例：「JR東日本」と「JR東」と「JR-East」"
+          @focus="handleFocus"
         >
         </textarea>
     <div class="character-count" :class="{ 'is-limit': inputText.length >= 1000 }">
@@ -212,6 +212,14 @@
       </div>
     <p>※ 語彙、語形、略語・略称などは<a href="https://github.com/WorksApplications/SudachiDict/blob/develop/docs/synonyms.md" target="_blank" rel="noopener noreferrer">Sudachi同義語辞書</a>に基づいています。詳しくはそちらをご覧ください。</p>
   </div>
+
+  <div class="others">
+    <h3>その他</h3>
+      <ul>
+        <li>Zenn 記事: <a href="https://zenn.dev/sea_turt1e/articles/7b3b3b3b3b3b3b3b3b3b" target="_blank" rel="noopener noreferrer">表記揺れ統一ツール「Yurenizer」を作成しました</a></li>
+        <li>for developers: <a href="https://github.com/sea-turt1e/yurenizer/blob/main/README_ja.md" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      </ul>
+  </div>
 </template>
 
 <script lang="ts">
@@ -227,7 +235,7 @@ interface Option {
 export default defineComponent({
   name: 'FormComponent',
   setup() {
-    const inputText = ref('1. JR東日本\n2. JR東\n3. JR-East') 
+    const inputText = ref('「JR東日本」と「JR東」と「JR-East」') 
     const isLoading = ref(false)
     const error = ref('')
     const flgOptions = reactive({
@@ -390,6 +398,9 @@ export default defineComponent({
   grid-template-columns: repeat(5, 1fr); /* 5つのオプションを横一列に */
   gap: 10px; /* 項目間の間隔 */
 }
+.unify-options-group h3 {
+  text-align: left;
+}
 
 .radio-item {
   display: flex;
@@ -508,11 +519,12 @@ export default defineComponent({
   background-color: #45a049;
 }
 
-.optionExplain {
+.optionExplain, .others {
   margin-top: 20px;
   padding: 10px;
   text-align: left;
 }
+
 
 .character-count {
   text-align: right;
@@ -523,5 +535,9 @@ export default defineComponent({
 
 .character-count.is-limit {
   color: #ff0000;
+}
+
+h1, h2, h3, h4, h5 {
+  color:  #0b4eeac0;
 }
 </style>
