@@ -2,7 +2,7 @@
 <template>
   <!-- タイトルを表示 -->
   <h1>Yurenizer</h1>
-  <h2>表記揺れ統一ツール</h2>
+  <h2>表記統一ツール</h2>
   <div class="form-container">
     <div class="unify-options-group">
       <h3>統一レベル</h3>
@@ -131,7 +131,7 @@
     </div> -->
 
     <div class="input-group">
-      <p>表記揺れを統一したいテキストを入力してください</p>
+      <p>表記を統一したいテキストを入力してください</p>
       <label for="text-input"></label>
         <textarea
           id="text-input"
@@ -177,7 +177,7 @@
   
   <div class="optionExplain">
     <h3>※ツールの説明</h3>
-      <p>このライブラリは、文章中の表記の揺れを自動で統一します。</p>
+      <p>このライブラリは、表記を統一することで文章中の表記揺れを解消します。</p>
 
       <h4>表記揺れの例：</h4>
       <ul>
@@ -216,7 +216,7 @@
   <div class="others">
     <h3>その他</h3>
       <ul>
-        <li>Zenn 記事: <a href="https://zenn.dev/sea_turt1e/articles/7b3b3b3b3b3b3b3b3b3b" target="_blank" rel="noopener noreferrer">表記揺れ統一ツール「Yurenizer」を作成しました</a></li>
+        <li>Zenn 記事: <a href="https://zenn.dev/sea_turt1e/articles/7b3b3b3b3b3b3b3b3b3b" target="_blank" rel="noopener noreferrer">表記統一ツール「Yurenizer」を作成しました</a></li>
         <li>for developers: <a href="https://github.com/sea-turt1e/yurenizer/blob/main/README_ja.md" target="_blank" rel="noopener noreferrer">GitHub</a></li>
       </ul>
   </div>
