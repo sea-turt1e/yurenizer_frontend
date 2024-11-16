@@ -133,22 +133,27 @@
     <div class="input-group">
       <p>表記揺れを統一したいテキストを入力してください</p>
       <label for="text-input"></label>
-      <textarea
-        id="text-input"
-        v-model="inputText"
-        type="text"
-        class="text-input"
-        placeholder="例：「JR東日本」と「JR東」と「JR-East」は全て「東日本旅客鉄道」に統一されます"
+        <textarea
+          id="text-input"
+          v-model="inputText"
+          type="text"
+          class="text-input"
+          :maxlength="1000"
+          placeholder="例：&#13;&#10;1. JR東日本&#13;&#10;2. JR東&#13;&#10;3. JR-East"
         @focus="handleFocus"
-      ></textarea>
+        >
+        </textarea>
+    <div class="character-count" :class="{ 'is-limit': inputText.length >= 1000 }">
+      {{ inputText.length }}/1000文字
+    </div>
     </div>
 
     <button
-      @click="handleSubmit"
-      :disabled="isLoading"
-      class="submit-button"
+    @click="handleSubmit"
+    :disabled="isLoading || inputText.length > 1000"
+    class="submit-button"
     >
-      {{ isLoading ? '送信中...' : '送信' }}
+    {{ isLoading ? '処理中...' : '送信' }}
     </button>
 
     <p v-if="error" class="error-message">{{ error }}</p>
@@ -222,7 +227,7 @@ interface Option {
 export default defineComponent({
   name: 'FormComponent',
   setup() {
-    const inputText = ref('「JR東日本」と「JR東」と「JR-East」は全て「東日本旅客鉄道」に統一されます') 
+    const inputText = ref('1. JR東日本\n2. JR東\n3. JR-East') 
     const isLoading = ref(false)
     const error = ref('')
     const flgOptions = reactive({
@@ -507,5 +512,16 @@ export default defineComponent({
   margin-top: 20px;
   padding: 10px;
   text-align: left;
+}
+
+.character-count {
+  text-align: right;
+  font-size: 0.8em;
+  color: #666;
+  margin-top: 4px;
+}
+
+.character-count.is-limit {
+  color: #ff0000;
 }
 </style>
