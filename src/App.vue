@@ -358,6 +358,12 @@ export default defineComponent({
   margin-bottom: 20px;
 }
 
+.input-group p {
+  margin-top: 10;
+  margin-bottom: 0px;
+  text-align: left;
+}
+
 .select-input {
   max-width: 200%;
   padding: 0px;
