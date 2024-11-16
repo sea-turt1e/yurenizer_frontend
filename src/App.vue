@@ -21,7 +21,7 @@
       </select>
     </div>
 
-    <div class="option-heading">
+    <!-- <div class="option-heading">
       <h4>(0) 品詞</h4>
     </div>
     <div class="checkbox-group">
@@ -110,7 +110,7 @@
           v-model="flgOptions.isAlphabet"
           class="checkbox-input"
         />
-        アルファベット
+        アルファベット表記
       </label>
       <label class="checkbox-label">
         <input
@@ -123,22 +123,22 @@
       <label class="checkbox-label">
         <input
           type="checkbox"
-          v-model="flgOptions.isMisspeling"
+          v-model="flgOptions.isMisspelling"
           class="checkbox-input"
         />
-        誤字
+        誤表記
       </label>
-    </div>
-
+    </div> -->
 
     <div class="input-group">
+      <p>表記揺れを解消したいテキストを入力してください</p>
       <label for="text-input"></label>
       <textarea
         id="text-input"
         v-model="inputText"
         type="text"
         class="text-input"
-        placeholder="表記揺れを解消したいテキストを入力してください"
+        placeholder=""
       ></textarea>
     </div>
 
@@ -153,59 +153,58 @@
     <p v-if="error" class="error-message">{{ error }}</p>
   </div>
 
-  <div class="returnText">
-    <p v-if="responseMessage">{{ responseMessage }}</p>
-    <p v-else></p>
+  <div class="result-container">
+    <div class="returnText">
+      <p v-if="responseMessage">{{ responseMessage }}</p>
+      <p v-else></p>
+    </div>
+    <div class="copy-button-container" v-if="responseMessage">
+      <button 
+        @click="copyToClipboard" 
+        class="copy-button"
+      >
+        {{ isCopied ? 'コピーしました!' : 'コピー' }}
+      </button>
+    </div>
   </div>
 
   
   <div class="optionExplain">
-    <h3>※オプションの説明</h3>
-      <p>（お急ぎの方は、デフォルト設定のままご利用ください）</p>
-
+    <h3>※ツールの説明</h3>
       <p>このライブラリは、文章中の表記の揺れを自動で統一します。</p>
 
       <h4>表記揺れの例：</h4>
       <ul>
-          <li>「パーソナルコンピューター」と「パソコン」と「personal computer」</li>
-          <li>「苺」と「イチゴ」と「いちご」</li>
-          <li>「とうきょう」と「東京」と「TOKYO」</li>
+          <li>「東日本旅客鉄道」と「JR-East」と「JR東日本」と「JR東」</li>
+          <li>「アメリカ」と「アメリカ合衆国」と「United States of America」</li>
       </ul>
-
-      <h4>統一レベルの選択</h4>
-      <p>どこまで表記を統一するか、以下の3段階から選べます：</p>
-
+      <h4>表記の統一レベル設定</h4>
+      <p>表記の統一方法を3段階から選択できます。対象は体言のみです。</p>
+      <p>レベル1が最も広範な統一を行い、レベル3が最も限定的な統一となります。</p>
       <div class="level-explanation">
-          <h5>1. 基本レベル（語彙）</h5>
+          <h5>レベル1：最も広範な統一（推奨）</h5>
+            <ul>
+                <li>できるだけ多くの表記を代表的な表記に統一します。</li>
+                <li>対象：対訳、別称、旧称、誤用など</li>
+                <li>例：「JR東日本」「JR東」「JR-East」→「東日本旅客鉄道」</li>
+                <li>例：「United States of America」「アメリカ」「America」→「アメリカ合衆国」</li>
+            </ul>
+          <h5>レベル2：中程度の統一</h5>
           <ul>
-              <li>外来語、別称、旧称、誤用を基本的な表記に統一</li>
-              <li>例：「コンピューター」→「コンピュータ」</li>
-              <li>例：「とうきょう」→「東京」</li>
+              <li>一般的な略称のみを統一します。</li>
+              <li>対象：略語、略称</li>
+              <li>例：「JR東」→「JR東日本」</li>
+              <li>例：「アメリカ」→「アメリカ合衆国」</li>
           </ul>
-
-          <h5>2. 中間レベル（語形）</h5>
+          <h5>レベル3：限定的な統一</h5>
           <ul>
-              <li>アルファベットの略語、その他の略語を正式名称に統一</li>
-              <li>例：「パソコン」→「コンピュータ」</li>
-              <li>例：「東京都」→「東京」</li>
-          </ul>
-
-          <h5>3. 詳細レベル（略語・略称）</h5>
-          <ul>
-              <li>アルファベット表記、異表記、誤字を統一</li>
-              <li>例：「PC」→「コンピュータ」</li>
-              <li>例：「TOKYO」→「東京」</li>
+              <li>最小限の表記の揺れのみを統一します。</li>
+              <li>対象：略語・略称の中でアルファベット表記、異表記、誤表記</li>
+              <li>例：「JR-East」→「JR東日本」</li>
+              <li>例：「America」→「アメリカ」</li>
           </ul>
       </div>
-
-      <h4>品詞の選択について</h4>
-      <p>統一したい品詞（名詞、動詞など）を選択できます。<br>
-      ※ 選択しない場合は表記の統一は行われません。</p>
-
-      <p>※1 イメージとしては以下のようなツリー構造になっています。</p>
-          <!-- 画像貼り付け -->
-    <img src="../public/normalize_tree.png" alt="normalize_tree" width="100%">
-    <p>※2 語彙、語形、略語・略称などは<a href="https://github.com/WorksApplications/SudachiDict/blob/develop/docs/synonyms.md" target="_blank" rel="noopener noreferrer">Sudachi同義語辞書</a>に基づいています。詳しくはそちらをご覧ください。</p>
+    <p>※ 語彙、語形、略語・略称などは<a href="https://github.com/WorksApplications/SudachiDict/blob/develop/docs/synonyms.md" target="_blank" rel="noopener noreferrer">Sudachi同義語辞書</a>に基づいています。詳しくはそちらをご覧ください。</p>
   </div>
 </template>
 
@@ -238,7 +237,7 @@ export default defineComponent({
       isNonAlfabeticAbbreviation: true,
       isAlphabet: true,
       isOrthographicVariation: true,
-      isMisspeling: true,
+      isMisspelling: true,
     })
     const responseMessage = ref('')
 
@@ -277,7 +276,7 @@ export default defineComponent({
             non_alphabetic_abbreviation: flgOptions.isNonAlfabeticAbbreviation,
             alphabet: flgOptions.isAlphabet,
             orthographic_variation: flgOptions.isOrthographicVariation,
-            misspeling: flgOptions.isMisspeling,
+            misspelling: flgOptions.isMisspelling,
             }
         }
         console.log('送信直前の値:', inputText.value)
@@ -307,6 +306,21 @@ export default defineComponent({
         isLoading.value = false
       }
     }
+    const isCopied = ref(false)
+
+    const copyToClipboard = async () => {
+      if (!responseMessage.value) return
+      
+      try {
+        await navigator.clipboard.writeText(responseMessage.value)
+        isCopied.value = true
+        setTimeout(() => {
+          isCopied.value = false
+        }, 2000)
+      } catch (err) {
+        console.error('クリップボードへのコピーに失敗しました:', err)
+      }
+    }
 
     return {
       inputText,
@@ -316,6 +330,8 @@ export default defineComponent({
       error,
       handleSubmit,
       responseMessage,
+      isCopied,
+      copyToClipboard,
     }
   }
 })
@@ -323,7 +339,7 @@ export default defineComponent({
 
 <style scoped>
 .form-container {
-  max-width: 500px;
+  /* max-width: 500px; */
   margin: 0 auto;
   padding: 20px;
 }
@@ -333,8 +349,8 @@ export default defineComponent({
 }
 
 .select-input {
-  width: 200%;
-  padding: 10px;
+  max-width: 200%;
+  padding: 0px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -409,42 +425,68 @@ export default defineComponent({
 
 /* 共通のコンテナ幅を設定 */
 .text-input, .returnText {
+  font-size: 16px;
+  padding: 10px;
   width: 100%;
   max-width: 800px;  /* 必要に応じて調整 */
+  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box; /* padding を width に含める */
+  min-height: 100px;
+  line-height: 1.5;
+  border-radius: 4px;
+  text-align: left;
+  resize: vertical;
 }
 
 .text-input {
-  min-height: 100px;
-  padding: 10px;
-  font-size: 16px;
-  margin-top: 5px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical;
   vertical-align: top;
-  line-height: 1.5;
 }
 
 .returnText {
-  /* margin-top: 20px; */
-  padding: 10px;
+  margin-top: 20px;
+  padding: 20px;
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #f9f9f9;
-  text-align: left;
-  line-height: 1.5;
-  min-height: 100px;
-  display: block;
 }
+
 /* returnText内のpタグも調整 */
 .returnText p {
   margin: 0;            /* デフォルトのマージンを削除 */
   padding: 0;           /* デフォルトのパディングを削除 */
-  text-align: left;     /* 左揃えに設定 */
 }
+
+.result-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.copy-button-container {
+  position: absolute;
+  bottom: -40px;  /* ボタンの高さ + マージン */
+  right: 0;
+  z-index: 1;
+}
+
+.copy-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.copy-button:hover {
+  background-color: #45a049;
+}
+
 .optionExplain {
   margin-top: 20px;
   padding: 10px;
