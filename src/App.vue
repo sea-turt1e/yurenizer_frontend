@@ -138,7 +138,8 @@
         v-model="inputText"
         type="text"
         class="text-input"
-        placeholder=""
+        placeholder="例：「JR東日本」と「JR東」と「JR-East」は全て「東日本旅客鉄道」に統一されます"
+        @focus="handleFocus"
       ></textarea>
     </div>
 
@@ -221,8 +222,7 @@ interface Option {
 export default defineComponent({
   name: 'FormComponent',
   setup() {
-    const inputText = ref('')
-    // const selectedUnifyLevel = ref('lexeme')
+    const inputText = ref('「JR東日本」と「JR東」と「JR-East」は全て「東日本旅客鉄道」に統一されます') 
     const isLoading = ref(false)
     const error = ref('')
     const flgOptions = reactive({
@@ -240,6 +240,7 @@ export default defineComponent({
       isMisspelling: true,
     })
     const responseMessage = ref('')
+    const isFirstFocus = ref(true) // 初回フォーカス判定用フラグ
 
     const unifyLevel: Option[] = [
       { value: 'lexeme', label: '(1) 語彙' },
@@ -322,6 +323,14 @@ export default defineComponent({
       }
     }
 
+    const handleFocus = () => {
+      if (isFirstFocus.value) {
+        isFirstFocus.value = false
+        const textarea = document.getElementById('text-input') as HTMLTextAreaElement
+        textarea?.select()
+      }
+    }
+
     return {
       inputText,
       unifyLevel,
@@ -332,6 +341,7 @@ export default defineComponent({
       responseMessage,
       isCopied,
       copyToClipboard,
+      handleFocus,
     }
   }
 })
