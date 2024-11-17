@@ -139,7 +139,7 @@
           type="text"
           class="text-input"
           :maxlength="1000"
-          placeholder="例：「JR東日本」と「JR東」と「JR-East」"
+          placeholder="例：「東日本旅客鉄道」の表記揺れ&#10;1. JR東日本&#10;2. JR東&#10;3. JR-East"
           @focus="handleFocus"
         >
         </textarea>
@@ -235,7 +235,7 @@ interface Option {
 export default defineComponent({
   name: 'FormComponent',
   setup() {
-    const inputText = ref('「JR東日本」と「JR東」と「JR-East」') 
+    const inputText = ref('「東日本旅客鉄道」の表記揺れ\n1. JR東日本\n2. JR東\n3. JR-East') 
     const isLoading = ref(false)
     const error = ref('')
     const flgOptions = reactive({
@@ -296,8 +296,9 @@ export default defineComponent({
         console.log('送信直前の値:', inputText.value)
         console.log('送信直前の値:', requestBody)
 
+        const encodedText = encodeURIComponent(inputText.value.trim())
         const response = await axios.post(
-        'http://127.0.0.1:8000/normalize_text?text=' + inputText.value,
+          `http://127.0.0.1:8000/normalize_text?text=${encodedText}`,
         requestBody,        
         {
           headers: {
@@ -457,6 +458,7 @@ export default defineComponent({
 
 /* 共通のコンテナ幅を設定 */
 .text-input, .returnText {
+  font-family: 'Arial', sans-serif; 
   font-size: 16px;
   padding: 10px;
   width: 100%;
@@ -475,14 +477,14 @@ export default defineComponent({
 .text-input {
   border: 1px solid #ccc;
   vertical-align: top;
+  height: 120px;
 }
 
 .returnText {
-  margin-top: 20px;
-  padding: 20px;
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #f9f9f9;
+  white-space: pre-wrap;
 }
 
 /* returnText内のpタグも調整 */
