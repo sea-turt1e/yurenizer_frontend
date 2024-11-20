@@ -223,8 +223,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue'
-import axios from 'axios'
+import axios from 'axios';
+import { defineComponent, reactive, ref } from 'vue';
 
 interface Option {
   value: string
@@ -298,15 +298,15 @@ export default defineComponent({
 
         const encodedText = encodeURIComponent(inputText.value.trim())
         const response = await axios.post(
-          `http://127.0.0.1:8000/normalize_text?text=${encodedText}`,
-        requestBody,        
-        {
-          headers: {
-            'accept': 'application/json',
-            'Content-Type': 'application/json'
+          `${import.meta.env.VITE_API_ENDPOINT}/normalize_text?text=${encodedText}`,
+          requestBody,
+          {
+            headers: {
+              accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
           }
-        }
-      )
+)
 
 
         console.log('送信成功:', response.data)
