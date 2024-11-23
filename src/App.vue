@@ -395,10 +395,12 @@ export default defineComponent({
 
 .unify-options-group {
   margin-bottom: 20px;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5つのオプションを横一列に */
-  gap: 10px; /* 項目間の間隔 */
+  display: flex;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(50px, auto));
+  justify-items: start;
 }
+
 .unify-options-group h3 {
   text-align: left;
 }
