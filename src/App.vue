@@ -216,7 +216,7 @@
   <div class="others">
     <h3>その他</h3>
       <ul>
-        <li>Zenn 記事: <a href="https://zenn.dev/sea_turt1e/articles/7b3b3b3b3b3b3b3b3b3b" target="_blank" rel="noopener noreferrer">表記統一ツール「Yurenizer」を作成しました</a></li>
+        <li>Zenn 記事: <a href="https://zenn.dev/sea_turt1e/articles/afbe326366f1e7" target="_blank" rel="noopener noreferrer">ルールベースで表記揺れを解消！Pythonライブラリ「yurenizer」</a></li>
         <li>for developers: <a href="https://github.com/sea-turt1e/yurenizer/blob/main/README_ja.md" target="_blank" rel="noopener noreferrer">GitHub</a></li>
       </ul>
   </div>
@@ -395,10 +395,12 @@ export default defineComponent({
 
 .unify-options-group {
   margin-bottom: 20px;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5つのオプションを横一列に */
-  gap: 10px; /* 項目間の間隔 */
+  display: flex;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(50px, auto));
+  justify-items: start;
 }
+
 .unify-options-group h3 {
   text-align: left;
 }
