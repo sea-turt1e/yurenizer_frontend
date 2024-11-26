@@ -1,2 +1,2 @@
 # yurenizer_frontend
-Frontend of Yurenizer
+Frontend of yurenizer
