@@ -3,7 +3,7 @@
   <!-- タイトルを表示 -->
   <h1>
     <img src="/favicon.png" alt="ファビコン" style="width: 60px; height: 60px; vertical-align: middle;">
-    Yurenizer
+    yurenizer
     <img src="/favicon.png" alt="ファビコン" style="width: 60px; height: 60px; vertical-align: middle;">
   </h1>
   <h2>表記統一ツール</h2>
