@@ -1,7 +1,11 @@
 // FormComponent.vue
 <template>
   <!-- タイトルを表示 -->
-  <h1>Yurenizer</h1>
+  <h1>
+    <img src="/favicon.png" alt="ファビコン" style="width: 60px; height: 60px; vertical-align: middle;">
+    Yurenizer
+    <img src="/favicon.png" alt="ファビコン" style="width: 60px; height: 60px; vertical-align: middle;">
+  </h1>
   <h2>表記統一ツール</h2>
   <div class="form-container">
     <div class="unify-options-group">
