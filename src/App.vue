@@ -133,7 +133,7 @@
     </div> -->
     <div class="expansion-heading">
       <div class="option-heading">
-        <h4>・全て展開* </h4>
+        <h4>・展開フラグ* </h4>
       </div>
       <div class="checkbox-group">
         <label class="checkbox-label">
@@ -231,8 +231,8 @@
       <h4>品詞</h4>
       <p>体言、用言それぞれで統一を行うかどうかを選択できます。</p>
       <p>用言は見出し語となりますのでご注意ください。</p>
-      <h4>全て展開</h4>
-      <p>展開フラグに関係なく統一します。</p>
+      <h4>展開フラグ</h4>
+      <p>「全て展開」にチェックすると展開フラグに関係なく統一します。</p>
       <p>*文法が崩れたり、単語の意味が少し変わる可能性があります。</p>
       <h4>その他</h4>
     <p>語彙、語形、略語・略称などは<a href="https://github.com/WorksApplications/SudachiDict/blob/develop/docs/synonyms.md" target="_blank" rel="noopener noreferrer">Sudachi同義語辞書</a>に基づいています。詳しくはそちらをご覧ください。</p>
