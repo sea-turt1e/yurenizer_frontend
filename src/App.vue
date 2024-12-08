@@ -23,8 +23,8 @@
       </select>
     </div>
 
-    <!-- <div class="option-heading">
-      <h4>(0) 品詞</h4>
+    <div class="option-heading">
+      <h4>・品詞</h4>
     </div>
     <div class="checkbox-group">
       <label class="checkbox-label">
@@ -44,7 +44,7 @@
         用言
       </label>
     </div>
-    <div class="option-heading">
+    <!-- <div class="option-heading">
       <h4>(1) 語彙を統一</h4>
     </div>
     <div class="checkbox-group">
@@ -131,8 +131,24 @@
         誤表記
       </label>
     </div> -->
+    <div class="expansion-heading">
+      <div class="option-heading">
+        <h4>・展開フラグ* </h4>
+      </div>
+      <div class="checkbox-group">
+        <label class="checkbox-label">
+          <input
+            type="checkbox"
+            v-model="flgOptions.isExpansionAny"
+            class="checkbox-input"
+          />
+          全て展開
+        </label>
+      </div>
+    </div>
 
     <div class="input-group">
+      <h3>テキスト入力欄</h3>
       <p>表記を統一したいテキストを入力してください</p>
       <label for="text-input"></label>
         <textarea
@@ -212,7 +228,14 @@
               <li>例：「America」→「アメリカ」</li>
           </ul>
       </div>
-    <p>※ 語彙、語形、略語・略称などは<a href="https://github.com/WorksApplications/SudachiDict/blob/develop/docs/synonyms.md" target="_blank" rel="noopener noreferrer">Sudachi同義語辞書</a>に基づいています。詳しくはそちらをご覧ください。</p>
+      <h4>品詞</h4>
+      <p>体言、用言それぞれで統一を行うかどうかを選択できます。</p>
+      <p>用言は見出し語となりますのでご注意ください。</p>
+      <h4>展開フラグ</h4>
+      <p>「全て展開」にチェックすると展開フラグに関係なく統一します。</p>
+      <p>*文法が崩れたり、単語の意味が少し変わる可能性があります。</p>
+      <h4>その他</h4>
+    <p>語彙、語形、略語・略称などは<a href="https://github.com/WorksApplications/SudachiDict/blob/develop/docs/synonyms.md" target="_blank" rel="noopener noreferrer">Sudachi同義語辞書</a>に基づいています。詳しくはそちらをご覧ください。</p>
   </div>
 
   <div class="others">
@@ -241,6 +264,7 @@ export default defineComponent({
     const isLoading = ref(false)
     const error = ref('')
     const flgOptions = reactive({
+      isExpansionAny: false,
       selectedUnifyLevel: 'lexeme',
       isTaigen: true,
       isYougen: false,
@@ -278,12 +302,17 @@ export default defineComponent({
         isLoading.value = true
         error.value = ''
 
+        var flgExpansion = "from_another"
+        if (flgOptions.isExpansionAny) {
+          flgExpansion = "any"
+        }
+
         const requestBody = {
           config:{
             unify_level: flgOptions.selectedUnifyLevel,
             taigen: flgOptions.isTaigen,
             yougen: flgOptions.isYougen,
-            expansion: "from_another",
+            expansion: flgExpansion,
             other_language: flgOptions.isOtherLanguage,
             alias: flgOptions.isAlias,
             old_name: flgOptions.isOldName,
@@ -458,6 +487,13 @@ export default defineComponent({
   margin-top: 0px;
   margin-bottom: 0px;
   text-align: left;
+  line-height: 0.8;
+}
+.expansion-heading p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  text-align: left;
+  line-height: 0.8;
 }
 
 /* 共通のコンテナ幅を設定 */
